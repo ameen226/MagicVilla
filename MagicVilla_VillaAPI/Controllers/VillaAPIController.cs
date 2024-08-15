@@ -116,6 +116,7 @@ namespace MagicVilla_VillaAPI.Controllers
                 }
 
                 Villa model = _mapper.Map<Villa>(createDto);
+                model.CreatedDate = DateTime.Now;
 
                 await _villaDb.CreateAsync(model);
 
@@ -137,7 +138,7 @@ namespace MagicVilla_VillaAPI.Controllers
 
 
         [HttpDelete("{id:int}", Name = "DeleteVilla")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
 
@@ -159,8 +160,7 @@ namespace MagicVilla_VillaAPI.Controllers
 
                 await _villaDb.RemoveAsync(villa);
 
-                _response.StatusCode = HttpStatusCode.NoContent;
-                _response.IsSuccess = true;
+                _response.StatusCode = HttpStatusCode.OK;
 
                 return Ok(_response);
             }
@@ -177,7 +177,7 @@ namespace MagicVilla_VillaAPI.Controllers
         }
 
         [HttpPut("{id:int}", Name = "UpdateVilla")]
-        [ProducesResponseType(StatusCodes.Status204NoContent)]
+        [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
 
@@ -192,11 +192,17 @@ namespace MagicVilla_VillaAPI.Controllers
 
                 Villa villa = _mapper.Map<Villa>(updateDto);
 
+                var villaIsFound = await _villaDb.GetAsync(v => v.Id == id, isTracked: false);
 
+                if (villaIsFound == null)
+                {
+                    return BadRequest();
+                }
+
+                villa.CreatedDate = villaIsFound.CreatedDate;
                 await _villaDb.UpdateAsync(villa);
 
-                _response.StatusCode = HttpStatusCode.NoContent;
-                _response.IsSuccess = true;
+                _response.StatusCode = HttpStatusCode.OK;
 
                 return Ok(_response);
             }
@@ -240,6 +246,8 @@ namespace MagicVilla_VillaAPI.Controllers
             }
 
             Villa model = _mapper.Map<Villa>(updateDto);
+
+            model.UpdatedDate = villa.UpdatedDate;
 
             await _villaDb.UpdateAsync(model);
 
