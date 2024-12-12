@@ -6,7 +6,7 @@ namespace MagicVilla_Web.Services.IServices
     {
         Task<T> GetAllAsync<T>();
         Task<T> GetAsync<T>(int id);
-        Task<T> CreateAsync<T>(VillaNumberDto dto);
+        Task<T> CreateAsync<T>(CreateVillaNumberDto dto);
         Task<T> UpdateAsync<T>(UpdateVillaNumberDto dto);
         Task<T> DeleteAsync<T>(int id);
     }

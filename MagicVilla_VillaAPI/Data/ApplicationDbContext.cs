@@ -15,6 +15,7 @@ namespace MagicVilla_VillaAPI.Data
 
         protected override void OnModelCreating(ModelBuilder modelBuilder)
         {
+            base.OnModelCreating(modelBuilder);
             modelBuilder.Entity<Villa>().HasData(
                 new Villa
                 {
@@ -25,8 +26,7 @@ namespace MagicVilla_VillaAPI.Data
                     Occupancy = 4,
                     Rate = 200,
                     Sqft = 550,
-                    Amenity = "",
-                    CreatedDate = DateTime.Now
+                    Amenity = ""
                 },
               new Villa
               {
@@ -37,8 +37,7 @@ namespace MagicVilla_VillaAPI.Data
                   Occupancy = 4,
                   Rate = 300,
                   Sqft = 550,
-                  Amenity = "",
-                  CreatedDate = DateTime.Now
+                  Amenity = ""
               },
               new Villa
               {
@@ -49,8 +48,7 @@ namespace MagicVilla_VillaAPI.Data
                   Occupancy = 4,
                   Rate = 400,
                   Sqft = 750,
-                  Amenity = "",
-                  CreatedDate = DateTime.Now
+                  Amenity = ""
               },
               new Villa
               {
@@ -61,8 +59,7 @@ namespace MagicVilla_VillaAPI.Data
                   Occupancy = 4,
                   Rate = 550,
                   Sqft = 900,
-                  Amenity = "",
-                  CreatedDate = DateTime.Now
+                  Amenity = ""
               },
               new Villa
               {
@@ -73,10 +70,8 @@ namespace MagicVilla_VillaAPI.Data
                   Occupancy = 4,
                   Rate = 600,
                   Sqft = 1100,
-                  Amenity = "",
-                  CreatedDate = DateTime.Now
-              }
-                );
+                  Amenity = ""
+              });
         }
 
     }

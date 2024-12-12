@@ -70,7 +70,7 @@ namespace MagicVilla_VillaAPI.Controllers
         {
             try
             {
-                var villaNumberList = await _villaNumDb.GetAllAsync();
+                var villaNumberList = await _villaNumDb.GetAllAsync(includeProperties:"Villa");
 
                 _response.Result = _mapper.Map<List<VillaNumberDto>>(villaNumberList);
                 _response.StatusCode = HttpStatusCode.OK;
