@@ -104,7 +104,7 @@ namespace MagicVilla_VillaAPI.Controllers
 
                 if (villaNum != null)
                 {
-                    ModelState.AddModelError("CustomError", "Villa Number Already Exists!");
+                    ModelState.AddModelError("ErrorMessages", "Villa Number Already Exists!");
                     _response.StatusCode = HttpStatusCode.BadRequest;
                     return BadRequest(_response);
                 }
@@ -113,7 +113,7 @@ namespace MagicVilla_VillaAPI.Controllers
 
                 if (villa == null)
                 {
-                    ModelState.AddModelError("CustomError", "Villa Id is Invalid");
+                    ModelState.AddModelError("ErrorMessages", "Villa Id is Invalid");
                     _response.StatusCode = HttpStatusCode.BadRequest;
                     return BadRequest(_response);
                 }
@@ -166,6 +166,7 @@ namespace MagicVilla_VillaAPI.Controllers
 
                 if (villa == null)
                 {
+                    ModelState.AddModelError("ErrorMessages", "Villa ID is invalid");
                     return BadRequest();
                 }
 
