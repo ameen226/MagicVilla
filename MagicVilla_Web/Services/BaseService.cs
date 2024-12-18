@@ -17,7 +17,7 @@ namespace MagicVilla_Web.Services
             HttpClient = httpClient;
         }
 
-        public async Task<T> SendAsync<T>(ApiRequest apiRequest)
+        public async Task<T> SendAsync<T>(APIRequest apiRequest)
         {
             try
             {
