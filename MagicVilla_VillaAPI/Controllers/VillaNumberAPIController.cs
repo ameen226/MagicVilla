@@ -2,6 +2,7 @@
 using MagicVilla_VillaAPI.Models;
 using MagicVilla_VillaAPI.Models.Dto;
 using MagicVilla_VillaAPI.Repository.IRepository;
+using Microsoft.AspNetCore.Authorization;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
@@ -89,6 +90,7 @@ namespace MagicVilla_VillaAPI.Controllers
         }
 
         [HttpPost]
+        [Authorize(Roles = "admin")]
         [ProducesResponseType(StatusCodes.Status201Created)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
         public async Task<ActionResult<APIResponse>> CreateVillaNumber([FromBody] CreateVillaNumberDto entity)
@@ -141,7 +143,7 @@ namespace MagicVilla_VillaAPI.Controllers
             return _response;
         }
 
-
+        [Authorize(Roles = "admin")]
         [HttpPut("{villaNo:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]
@@ -195,6 +197,7 @@ namespace MagicVilla_VillaAPI.Controllers
             return _response;
         }
 
+        [Authorize(Roles = "admin")]
         [HttpDelete("{villaNo:int}")]
         [ProducesResponseType(StatusCodes.Status200OK)]
         [ProducesResponseType(StatusCodes.Status404NotFound)]
@@ -227,6 +230,7 @@ namespace MagicVilla_VillaAPI.Controllers
             return _response;   
         }
 
+        [Authorize(Roles = "admin")]
         [HttpPatch("{villaNo:int}")]
         [ProducesResponseType(StatusCodes.Status204NoContent)]
         [ProducesResponseType(StatusCodes.Status400BadRequest)]

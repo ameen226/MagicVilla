@@ -14,7 +14,6 @@ namespace MagicVilla_Web.Services
         {
             _clientFactory = clientFactory;
             villaUrl = configuration.GetValue<string>("ServiceUrls:VillaAPI");
-
         }
 
         public Task<T> LoginAsync<T>(LoginRequestDto obj)
