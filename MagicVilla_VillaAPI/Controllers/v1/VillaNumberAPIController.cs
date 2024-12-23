@@ -8,10 +8,11 @@ using Microsoft.AspNetCore.JsonPatch;
 using Microsoft.AspNetCore.Mvc;
 using System.Net;
 
-namespace MagicVilla_VillaAPI.Controllers
+namespace MagicVilla_VillaAPI.Controllers.v1
 {
-    [Route("api/VillaNumberAPI")]
+    [Route("api/v{version:apiVersion}/VillaNumberAPI")]
     [ApiController]
+    [ApiVersion("1.0")]
     public class VillaNumberAPIController : ControllerBase
     {
         protected APIResponse _response;
@@ -71,7 +72,7 @@ namespace MagicVilla_VillaAPI.Controllers
         {
             try
             {
-                var villaNumberList = await _villaNumDb.GetAllAsync(includeProperties:"Villa");
+                var villaNumberList = await _villaNumDb.GetAllAsync(includeProperties: "Villa");
 
                 _response.Result = _mapper.Map<List<VillaNumberDto>>(villaNumberList);
                 _response.StatusCode = HttpStatusCode.OK;
@@ -227,7 +228,7 @@ namespace MagicVilla_VillaAPI.Controllers
                 };
             }
 
-            return _response;   
+            return _response;
         }
 
         [Authorize(Roles = "admin")]

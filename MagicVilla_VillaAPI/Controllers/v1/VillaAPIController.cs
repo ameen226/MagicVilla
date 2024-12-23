@@ -9,9 +9,8 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.EntityFrameworkCore;
 using System.Net;
 
-namespace MagicVilla_VillaAPI.Controllers
+namespace MagicVilla_VillaAPI.Controllers.v1
 {
-    [Route("api/VillaAPI")]
     [Route("api/v{version:apiVersion}/VillaAPI")]
     [ApiController]
     [ApiVersion("1.0")]
@@ -31,18 +30,34 @@ namespace MagicVilla_VillaAPI.Controllers
 
 
         [HttpGet]
+        [ResponseCache(CacheProfileName = "Default30")]
         [ProducesResponseType(StatusCodes.Status403Forbidden)]
         [ProducesResponseType(StatusCodes.Status401Unauthorized)]
         [ProducesResponseType(StatusCodes.Status200OK)]
-        public async Task<ActionResult<APIResponse>> GetVillas()
+        public async Task<ActionResult<APIResponse>> GetVillas([FromQuery(Name = "filterOccupancy")] int? occupancy,
+            [FromQuery] string? search)
         {
             try
             {
                 _logger.LogInformation("Get All Villas");
 
-                IEnumerable<Villa> villasList = await _villaDb.GetAllAsync();
+                IEnumerable<Villa> villaList;
 
-                _response.Result = _mapper.Map<List<VillaDto>>(villasList);
+                if (occupancy > 0)
+                {
+                    villaList = await _villaDb.GetAllAsync(u => u.Occupancy == occupancy);
+                }
+                else
+                {
+                    villaList = await _villaDb.GetAllAsync();
+                }
+
+                if (!string.IsNullOrEmpty(search))
+                {
+                    villaList = villaList.Where(u => u.Name.ToLower().Contains(search));
+                }
+
+                _response.Result = _mapper.Map<List<VillaDto>>(villaList);
                 _response.StatusCode = HttpStatusCode.OK;
 
                 return Ok(_response);
@@ -89,12 +104,12 @@ namespace MagicVilla_VillaAPI.Controllers
 
                 return Ok(_response);
             }
-            catch(Exception ex)
+            catch (Exception ex)
             {
                 _response.IsSuccess = false;
                 _response.ErrorMessages = new List<string>
-                { 
-                    ex.ToString() 
+                {
+                    ex.ToString()
                 };
             }
             return _response;
@@ -251,7 +266,7 @@ namespace MagicVilla_VillaAPI.Controllers
             UpdateVillaDto updateDto = _mapper.Map<UpdateVillaDto>(villa);
 
             patchDto.ApplyTo(updateDto, ModelState);
-            
+
             if (!ModelState.IsValid)
             {
                 return BadRequest();
@@ -269,4 +284,3 @@ namespace MagicVilla_VillaAPI.Controllers
 
     }
 }
- 

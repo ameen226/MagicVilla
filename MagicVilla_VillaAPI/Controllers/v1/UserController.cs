@@ -6,12 +6,11 @@ using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Infrastructure;
 using System.Net;
 
-namespace MagicVilla_VillaAPI.Controllers
+namespace MagicVilla_VillaAPI.Controllers.v1
 {
-    [Route("api/UsersAuth")]
     [Route("api/v{version:apiVersion}/UsersAuth")]
     [ApiController]
-    [ApiVersion("1.0")]
+    [ApiVersionNeutral]
     public class UserController : ControllerBase
     {
         private readonly IUserRepository _userRepo;
@@ -28,7 +27,7 @@ namespace MagicVilla_VillaAPI.Controllers
         public async Task<IActionResult> Login([FromBody] LoginRequestDto loginReqDto)
         {
             var loginRes = await _userRepo.Login(loginReqDto);
-            
+
             if (loginRes.User == null || string.IsNullOrEmpty(loginRes.Token))
             {
                 _response.StatusCode = HttpStatusCode.BadRequest;
